@@ -19,6 +19,12 @@ public class Mgr_Game : MonoBehaviour
     void Update()
     {
         Player = GameObject.Find("Player");
+
+        if (Player.transform.position.y < -25f)
+        {
+            Player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            Player.transform.position = Vector2.zero;
+        }
     }
 
 

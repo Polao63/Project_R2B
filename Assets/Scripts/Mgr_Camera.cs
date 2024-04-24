@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class Mgr_Camera : MonoBehaviour
 {
-    public Transform Player;
+    public Mgr_Player Player;
     public float Camera_offset;
     public float Camera_Yset;
 
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.Find("Player").transform;
+        Player = GameObject.Find("Player").GetComponent<Mgr_Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Player.position.y >= Camera_Yset)
+        if (Player.transform.position.y >= Camera_Yset)
         {
-            transform.position = new Vector3(Player.position.x, Player.position.y, Camera_offset);
+            transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, Camera_offset);
         }
         else
-        { transform.position = new Vector3(Player.position.x, 0, Camera_offset); }
+        {
+             transform.position = new Vector3(Player.transform.position.x, 0, Camera_offset);
+        }
 
         
     }

@@ -14,34 +14,12 @@ public enum BlockType
 
 public class BlockStatus : MonoBehaviour
 {
-    public BlockType blockType;
+    public bool ableToHook = false;
 
-    public Color Origin_color;
-    public bool Hooked;
-    public bool Damage;
+    public Transform GroundSideL;
+    public Transform GroundSideR;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Origin_color = GetComponent<SpriteRenderer>().color;
-    }
+    public float Hookup_Offset = 0f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Hooked)
-        { GetComponent<SpriteRenderer>().color = Color.red; }
-        else
-        { GetComponent<SpriteRenderer>().color = Origin_color; }
-    }
 
-    private void OnMouseOver()
-    {
-        Hooked = true;
-    }
-
-    private void OnMouseExit()
-    {
-        Hooked = false;
-    }
 }
