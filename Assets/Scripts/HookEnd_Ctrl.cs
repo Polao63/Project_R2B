@@ -7,6 +7,7 @@ public class HookEnd_Ctrl : MonoBehaviour
     public bool Hookable = false;
     public float hookRange = 0;
     public Vector2 HookedPos = Vector2.zero;
+    public float hookAngle = 0;
     public bool targetReached = false;
 
 
@@ -50,7 +51,8 @@ public class HookEnd_Ctrl : MonoBehaviour
                 Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointL.x - hitPoint.x));
                 if (Mathf.Abs(GrapplePointL.x - hitPoint.x) <= hookRange)
                 {
-                    if (Mathf.Abs(degreeL) <= 90)
+                    Debug.Log("Cur Angle : " + degreeL);
+                    if (Mathf.Abs(degreeL) <= hookAngle)
                     {
                         Hookable = true;
                         //HookedPos = new Vector2(collision.contacts[0].point.x, collision.transform.position.y);
@@ -65,7 +67,8 @@ public class HookEnd_Ctrl : MonoBehaviour
                 Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointR.x - hitPoint.x));
                 if (Mathf.Abs(GrapplePointR.x - hitPoint.x) <= hookRange)
                 {
-                    if (Mathf.Abs(degreeR) >= 90)
+                    Debug.Log("Cur Angle : " + degreeR);
+                    if (Mathf.Abs(degreeR) >= hookAngle)
                     {
                         Hookable = true;
                         //HookedPos = new Vector2(collision.contacts[0].point.x, collision.transform.position.y);

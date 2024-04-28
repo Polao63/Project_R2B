@@ -310,10 +310,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a812e37c41b5b499ebeee41ff471a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key_Jump: 32
+  key_Dash: 304
   D_Jump_ON: 0
   Moveable: 1
   canFlip: 1
   isDashing: 0
+  isAttacking: 0
   canDash: 1
   isFacingL: 0
   MoveSpeed: 10
@@ -333,6 +336,9 @@ MonoBehaviour:
   attack_Force: 5
   attack_SpeedMax: 0.3
   attack_Delay: 0
+  isUsingSpecial: 0
+  specialAirUsed: 0
+  specialAirUpForce: 30
   WallCheck: {fileID: 736770671}
   WallCheckSize: {x: 0.1, y: 1}
   isTouchingWall: 0
@@ -1295,6 +1301,7 @@ MonoBehaviour:
   Hookable: 0
   hookRange: 0.5
   HookedPos: {x: 0, y: 0}
+  hookAngle: 105
   targetReached: 0
 --- !u!1 &1467899261
 GameObject:
@@ -1426,7 +1433,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
@@ -1973,6 +1980,7 @@ GameObject:
   - component: {fileID: 2130282094}
   - component: {fileID: 2130282096}
   - component: {fileID: 2130282095}
+  - component: {fileID: 2130282097}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -2033,8 +2041,10 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uC870\uC791\uD0A4\r\n\r\nwasd - \uC774\uB3D9\r\n\uC2A4\uD398\uC774\uC2A4
-    \uBC14 - \uC810\uD504\r\n\uC67C\uCABD Shift - \uB300\uC2DC\nE - \uAC08\uACE0\uB9AC
-    \uBC1C\uC0AC\n\uB9C8\uC6B0\uC2A4 \uD074\uB9AD - \uACF5\uACA9"
+    \uBC14 - \uC810\uD504\r\n\uC67C\uCABD Shift - \uB300\uC2DC\n\uB9C8\uC6B0\uC2A4
+    \uC624\uB978\uCABD \uD074\uB9AD - \uAC08\uACE0\uB9AC \uBC1C\uC0AC\n\uB9C8\uC6B0\uC2A4
+    \uC67C\uCABD \uD074\uB9AD - \uACF5\uACA9\n\uB9C8\uC6B0\uC2A4 \uC88C\uC6B0 \uB3D9\uC2DC
+    \uB204\uB974\uAE30 / \uB9C8\uC6B0\uC2A4 \uD720\uBC84\uD2BC - \uD2B9\uC218 \uACF5\uACA9"
 --- !u!222 &2130282096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2043,6 +2053,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130282093}
   m_CullTransparentMesh: 1
+--- !u!114 &2130282097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130282093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &4172217603259763495
 PrefabInstance:
   m_ObjectHideFlags: 0

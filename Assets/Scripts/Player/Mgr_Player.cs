@@ -8,11 +8,17 @@ public class Mgr_Player : MonoBehaviour
     SpriteRenderer spriter;
     Animator anim;
 
+    [Header("Player Control")]
+    public KeyCode key_Jump;
+    public KeyCode key_Dash;
+
+
     [Header("Player_Status")]
     public bool D_Jump_ON = false;
     public bool Moveable = true;
     public bool canFlip = true;
     public bool isDashing;
+    public bool isAttacking = false;
     public bool canDash = true;
 
     [Header("General_Movement")]
@@ -57,13 +63,25 @@ public class Mgr_Player : MonoBehaviour
     public float attack_SpeedMax = 5;
     public bool attack_Delay = false;
 
+    [Header("Special")]
+    public bool isUsingSpecial = false;
+    public bool specialAirUsed = false;
+    public float specialAirUpForce = 0;
+
+
+
     [Header("Wall_Check")]
     public Transform WallCheck;
     public Vector2 WallCheckSize;
     [SerializeField] bool isTouchingWall;
 
 
-
+    //private bool isMouseLeftDown = false;
+    //private bool isMouseRightDown = false;
+    //private float specialInputCheckLimitTime = 0.1f;
+    //private float specialInputCheckTime = 0f;
+    //private bool wasMouseLeftPressed = false;
+    //private bool wasMouseRightPressed = false;
 
 
     private void Start()
@@ -96,9 +114,10 @@ public class Mgr_Player : MonoBehaviour
         if (Moveable)
         {
             Movement();
-            Jump();
-            Dash();
+            Jump(key_Jump);
+            Dash(key_Dash);
         }
+        Special();
         Attack();
 
 
@@ -106,7 +125,7 @@ public class Mgr_Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
     }
 
     //캐릭터 좌우 반전
@@ -137,6 +156,7 @@ public class Mgr_Player : MonoBehaviour
         {
             D_jumpCount = D_jumpCountMax;
             canDash = true;
+            specialAirUsed = false;
         }
     }
 
@@ -151,7 +171,7 @@ public class Mgr_Player : MonoBehaviour
         anim.SetBool(animatorHashKey_isGrounded, isGrounded);
         anim.SetBool(animatorHashKey_isFalling, (rigid.velocity.y < 0));
     }
-    
+
 
     //기본적인 이동
     void Movement()
@@ -176,13 +196,13 @@ public class Mgr_Player : MonoBehaviour
     }
 
     //점프
-    void Jump()
+    void Jump(KeyCode Key)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(Key))
         {
             if (isDashing)
             {
-                return; 
+                return;
             }
 
             if (isGrounded)
@@ -190,7 +210,7 @@ public class Mgr_Player : MonoBehaviour
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
                 anim.SetTrigger(animatorHashKey_isJumping);
             }
-            else if(D_jumpCount > 0)
+            else if (D_jumpCount > 0)
             {
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
@@ -239,9 +259,9 @@ public class Mgr_Player : MonoBehaviour
     }
 
     //대시
-    void Dash()
+    void Dash(KeyCode Key)
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(Key) && canDash && !isAttacking)
         {
             anim.SetBool(animatorHashKey_isDashing, true);
             isDashing = true;
@@ -275,52 +295,126 @@ public class Mgr_Player : MonoBehaviour
 
     void Attack()
     {
-        if (attack_Delay)
+        if (!isUsingSpecial)
         {
-            attack_Speed += Time.deltaTime;
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            if (isDashing)
+            if (attack_Delay)
             {
-                anim.SetTrigger(animatorHashKey_isAttacking2);
-                if (isGrounded)
-                {
-                    Moveable = false;
-                }
+                attack_Speed += Time.deltaTime;
             }
-            else
+            else if (Input.GetMouseButtonDown(0))
             {
-                anim.SetTrigger(animatorHashKey_isAttacking);
-
-                if (isGrounded)
+                isAttacking = true;
+                if (isDashing)
                 {
-                    Moveable = false;
+                    anim.SetTrigger(animatorHashKey_isAttacking2);
+                    if (isGrounded)
+                    {
+                        Moveable = false;
+                    }
                 }
                 else
                 {
-                    //rigid.velocity = Vector2.zero;
+                    anim.SetTrigger(animatorHashKey_isAttacking);
+
+                    if (isGrounded)
+                    {
+                        Moveable = false;
+                    }
+                    else
+                    {
+                        //rigid.velocity = Vector2.zero;
+                    }
                 }
+
+                canFlip = false;
+                attack_Delay = true;
             }
 
-            
-            
-            canFlip = false;
-            attack_Delay = true;
+            if (attack_Speed >= attack_SpeedMax)
+            {
+                attack_Speed = 0;
+                attack_Delay = false;
+            }
         }
-
-        if (attack_Speed >= attack_SpeedMax)
-        {
-            attack_Speed = 0;
-            attack_Delay = false;
-        }
-        
     }
 
     public void AttackEnd()
     {
         Moveable = true;
         canFlip = true;
+        isAttacking = false;
+    }
+
+    void Special()
+    {
+        //isMouseLeftDown = Input.GetMouseButtonDown(0);
+        //isMouseRightDown = Input.GetMouseButtonDown(1);
+        //if ((isMouseLeftDown || isMouseRightDown) && specialInputCheckTime < specialInputCheckLimitTime)
+        //{
+        //    specialInputCheckTime += Time.deltaTime;
+        //    if (isMouseLeftDown) wasMouseLeftPressed = true;
+        //    if (isMouseRightDown) wasMouseRightPressed = true;
+        //}
+        //else
+        //{
+        //    wasMouseLeftPressed = false;
+        //    wasMouseRightPressed = false;
+        //    specialInputCheckTime = 0f;
+        //}
+
+        //if (wasMouseLeftPressed && wasMouseRightPressed && !isUsingSpecial)
+        //{
+        //    // To do : Sepcial Action
+        //    Debug.Log("SPECIAL ON");
+        //    isUsingSpecial = true;
+        //    if (!isGrounded && !specialAirUsed && rigid.velocity.y >= 0)
+        //    {
+        //        rigid.velocity = Vector2.zero;
+        //        rigid.velocity = new Vector2(rigid.velocity.x, specialAirUpForce);
+        //        specialAirUsed = true;
+        //    }
+
+        //    Invoke(nameof(SpecialEnd), 1f);
+        //    //SpecialEnd();
+        //}
+
+
+        if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1)) || Input.GetMouseButtonDown(2))
+        {
+            Debug.Log("SPECIAL ON");
+            isUsingSpecial = true;
+
+            if (!isGrounded && !specialAirUsed && rigid.velocity.y >= 0)
+            {
+                spriter.color = Color.red;
+                rigid.velocity = Vector2.zero;
+                rigid.velocity = new Vector2(rigid.velocity.x, specialAirUpForce);
+                specialAirUsed = true;
+            }
+            //Invoke(nameof(SpecialEnd), 1f);
+            //SpecialEnd();
+        }
+
+        if (isUsingSpecial)
+        {
+            if ((specialAirUsed && rigid.velocity.y < 0) || isGrounded)
+            {
+                Debug.Log("SPECIAL OFF");
+                SpecialEnd();
+            }
+        }
+
+        
+
+    }
+
+    public void SpecialEnd()
+    {
+        spriter.color = Color.white;
+        isUsingSpecial = false;
+        //wasMouseLeftPressed = false;
+        //wasMouseRightPressed = false;
+        //specialInputCheckTime = 0f;
     }
 
 
