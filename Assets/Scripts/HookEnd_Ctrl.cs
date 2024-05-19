@@ -9,6 +9,9 @@ public class HookEnd_Ctrl : MonoBehaviour
     public Vector2 HookedPos = Vector2.zero;
     public float hookAngle = 0;
     public bool targetReached = false;
+    public GameObject HookedObject = null;
+
+    public int attachedLayer;
 
 
     // Start is called before the first frame update
@@ -20,22 +23,24 @@ public class HookEnd_Ctrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this.GetComponent<Rigidbody2D>().velocity = Mgr_Game.inst.Player.GetComponent<Rigidbody2D>().velocity;
 
     }
 
     public void CheckGrappleDirection(Collider2D collider, Vector2 hitPoint)
     {
-        var Player = Mgr_Game.inst.Player;
+        var Player = Mgr_Game.inst.Player.GetComponent<Mgr_Player>();
         var Block = collider.gameObject.GetComponent<BlockStatus>();
+        var Enemy = collider.gameObject.GetComponent<Enemy_Ctrl>();
         Vector2 playerPos = Player.transform.position;
 
-        
-        //두 지점의 각도를 비교하면 되지 않을까
+        attachedLayer = collider.gameObject.layer;
 
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Block.ableToHook)
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_GROUND) && Block.ableToHook)
         {
+            Debug.Log("Ground");
             targetReached = true;
+            attachedLayer = collider.gameObject.layer;
 
             Vector2 GrapplePointL = Block.GroundSideL.position;
             Vector2 GrapplePointR = Block.GroundSideR.position;
@@ -45,14 +50,15 @@ public class HookEnd_Ctrl : MonoBehaviour
 
             //Debug.Log("degreeL : " + degreeL + " degreeR : " + degreeR);
 
-            if (collider.gameObject.transform.position.x >= Player.transform.position.x)//왼쪽 잡기
+            //왼쪽 잡기
+            if (collider.gameObject.transform.position.x >= Player.transform.position.x)
             {
                 Debug.Log("왼쪽 잡기");
-                Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointL.x - hitPoint.x));
+                //Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointL.x - hitPoint.x));
                 if (Mathf.Abs(GrapplePointL.x - hitPoint.x) <= hookRange)
                 {
-                    Debug.Log("Cur Angle : " + degreeL);
-                    if (Mathf.Abs(degreeL) <= hookAngle)
+                    Debug.Log("Cur Angle : " + (180 - degreeL));
+                    if (Mathf.Abs(degreeL) <= 180 - hookAngle)
                     {
                         Hookable = true;
                         //HookedPos = new Vector2(collision.contacts[0].point.x, collision.transform.position.y);
@@ -61,10 +67,11 @@ public class HookEnd_Ctrl : MonoBehaviour
                 }
                 else Hookable = false;
             }
-            if (collider.gameObject.transform.position.x <= Player.transform.position.x)//오른쪽 잡기
+            //오른쪽 잡기
+            if (collider.gameObject.transform.position.x <= Player.transform.position.x)
             {
                 Debug.Log("오른쪽 잡기");
-                Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointR.x - hitPoint.x));
+                //Debug.Log("Cur Hookrange : " + Mathf.Abs(GrapplePointR.x - hitPoint.x));
                 if (Mathf.Abs(GrapplePointR.x - hitPoint.x) <= hookRange)
                 {
                     Debug.Log("Cur Angle : " + degreeR);
@@ -78,14 +85,23 @@ public class HookEnd_Ctrl : MonoBehaviour
                 else Hookable = false;
             }
         }
+        else if (collider.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_ENEMY))
+        {
+            if (!Player.isHookPireceAttacking)
+            {
+                Hookable = true;
+                HookedPos = transform.position;
+                HookedObject = collider.gameObject;
+            }
+            else
+            {
+                Enemy.isPierceCalled = true;
+                Enemy.isAttacked = true;
+            }
+        }
+
     }
 
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    Hookable = false;
-    //    targetReached = false;
-    //}
-    
-
+ 
    
 }
