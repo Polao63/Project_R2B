@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8121947283845451144
+--- !u!1001 &7849437457818451938
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,45 +8,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3082314985089004596, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 219272127675642621, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3986045013646138655, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3986045013646138655, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
-      propertyPath: Skill
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4278835878944214957, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_Name
-      value: Ground_Breakable
+      value: GroundTile_Penalty
       objectReference: {fileID: 0}
     - target: {fileID: 4278835878944214957, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5125049
-      objectReference: {fileID: 0}
-    - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4234
-      objectReference: {fileID: 0}
-    - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4234
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.68
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4957970297997140794, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -80,21 +68,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7353107302509939611, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8912478042266903936, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_Color.b
-      value: 0.745283
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8912478042266903936, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_Color.g
-      value: 0.745283
+      value: 0.27120185
       objectReference: {fileID: 0}
     - target: {fileID: 8912478042266903936, guid: 30b8edfd590ca52408e478a28520ef5f, type: 3}
       propertyPath: m_Color.r
-      value: 0.745283
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
